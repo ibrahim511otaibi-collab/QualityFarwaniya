@@ -890,7 +890,7 @@
       }
       window.onload = renderFiles;
     </script>
-    <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -992,20 +992,27 @@
             color: var(--primary-color);
         }
         
-        /* زر الثلاث شخطات (Hamburger Menu) */
+        /* زر الثلاث شخطات (Hamburger Menu) - تم تحسين التناسب */
         .openbtn {
-            font-size: 24px;
+            font-size: 22px;
             cursor: pointer;
             background-color: white;
             color: var(--primary-color);
-            padding: 10px 15px;
-            border: 1px solid #eee;
-            border-radius: 8px;
+            padding: 8px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
             position: fixed;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            right: 20px;
             z-index: 999;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            line-height: 1;
+            transition: all 0.2s;
+        }
+
+        .openbtn:hover {
+            background-color: #f3f4f6;
+            transform: scale(1.05);
         }
 
         /* تنسيق النافذة المنبثقة (Modal) */
@@ -1027,7 +1034,7 @@
             margin: 5% auto; 
             padding: 20px;
             border-radius: 20px;
-            width: 90%;
+            width: 95%;
             max-width: 800px;
             box-shadow: 0 5px 30px rgba(0,0,0,0.3);
             position: relative;
@@ -1083,57 +1090,72 @@
                     <p id="loading-prices" class="text-center text-gray-500 mb-8 text-sm italic">جارٍ فحص حالة الأسعار المحدثة...</p>
 
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
-                        <label for="money" class="label-style">إجمالي المال السائل والمدخرات (د.ك):</label>
-                        <input type="number" id="money" class="w-full p-4 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-600 focus:outline-none text-xl" placeholder="0.000">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="money" class="label-style mb-0">زكاة المال:</label>
+                            <span id="money-zakat" class="text-sm font-bold text-green-700 bg-green-50 px-2 py-1 rounded">المستحق: 0.000 د.ك</span>
+                        </div>
+                        <input type="number" id="money" oninput="updateLiveZakat()" class="w-full p-4 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-600 focus:outline-none text-xl" placeholder="0.000">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                            <label class="label-style">ذهب عيار 24 (جرام)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="label-style mb-0">ذهب عيار 24</label>
+                                <span id="g24-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
+                            </div>
                             <div class="flex items-center gap-3">
-                                <input type="number" id="gold24" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <input type="number" id="gold24" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
                                 <div class="flex flex-col items-center">
                                     <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                    <input type="number" id="gold24-price" class="editable-price p-2" step="0.001">
+                                    <input type="number" id="gold24-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
                                 </div>
                             </div>
                         </div>
 
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                            <label class="label-style">ذهب عيار 21 (جرام)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="label-style mb-0">ذهب عيار 21</label>
+                                <span id="g21-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
+                            </div>
                             <div class="flex items-center gap-3">
-                                <input type="number" id="gold21" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <input type="number" id="gold21" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
                                 <div class="flex flex-col items-center">
                                     <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                    <input type="number" id="gold21-price" class="editable-price p-2" step="0.001">
+                                    <input type="number" id="gold21-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
                                 </div>
                             </div>
                         </div>
 
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                            <label class="label-style">ذهب عيار 18 (جرام)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="label-style mb-0">ذهب عيار 18</label>
+                                <span id="g18-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
+                            </div>
                             <div class="flex items-center gap-3">
-                                <input type="number" id="gold18" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <input type="number" id="gold18" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
                                 <div class="flex flex-col items-center">
                                     <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                    <input type="number" id="gold18-price" class="editable-price p-2" step="0.001">
+                                    <input type="number" id="gold18-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
                                 </div>
                             </div>
                         </div>
 
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                            <label class="label-style">الفضة (جرام)</label>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="label-style mb-0">الفضة</label>
+                                <span id="silver-zakat" class="text-xs font-bold text-green-700">المستحق: 0.000</span>
+                            </div>
                             <div class="flex items-center gap-3">
-                                <input type="number" id="silver" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <input type="number" id="silver" oninput="updateLiveZakat()" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
                                 <div class="flex flex-col items-center">
                                     <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
-                                    <input type="number" id="silver-price" class="editable-price p-2" step="0.001">
+                                    <input type="number" id="silver-price" oninput="updateLiveZakat()" class="editable-price p-2" step="0.001">
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <button onclick="calculateZakat()" class="w-full btn-primary p-4 rounded-xl text-xl font-bold shadow-lg">احسب الزكاة المستحقة</button>
+                    <button onclick="calculateZakat()" class="w-full btn-primary p-4 rounded-xl text-xl font-bold shadow-lg">احسب الزكاة الإجمالية</button>
 
                     <div id="result" class="mt-8"></div>
                 </div>
@@ -1161,7 +1183,6 @@
                 document.getElementById("zakatModal").style.display = "none";
             }
 
-            // إغلاق النافذة عند الضغط خارجها
             window.onclick = function(event) {
                 let modal = document.getElementById("zakatModal");
                 if (event.target == modal) {
@@ -1180,7 +1201,7 @@
 
                 if (storedData && storedData.date === todayDate) {
                     applyPrices(storedData.prices);
-                    loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} كما يمكنك تعديلها يدوياً.`;
+                    loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} (يمكنك تعديلها يدوياً)`;
                     loadingText.classList.replace('text-gray-500', 'text-green-600');
                     return;
                 }
@@ -1208,7 +1229,7 @@
                         }));
 
                         applyPrices(prices);
-                        loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} كما يمكنك تعديلها يدوياً.`;
+                        loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} (يمكنك تعديلها يدوياً)`;
                         loadingText.classList.replace('text-gray-500', 'text-green-600');
                     }
                 } catch (error) {
@@ -1225,7 +1246,27 @@
                 document.getElementById('silver-price').value = prices.silver;
             }
 
-            // 4. وظيفة الحساب (مباشرة بدون نصاب)
+            // وظيفة التحديث اللحظي للزكاة لكل خانة
+            function updateLiveZakat() {
+                const money = parseFloat(document.getElementById('money').value) || 0;
+                const g24W = parseFloat(document.getElementById('gold24').value) || 0;
+                const g21W = parseFloat(document.getElementById('gold21').value) || 0;
+                const g18W = parseFloat(document.getElementById('gold18').value) || 0;
+                const silW = parseFloat(document.getElementById('silver').value) || 0;
+
+                const p24 = parseFloat(document.getElementById('gold24-price').value) || 0;
+                const p21 = parseFloat(document.getElementById('gold21-price').value) || 0;
+                const p18 = parseFloat(document.getElementById('gold18-price').value) || 0;
+                const pSil = parseFloat(document.getElementById('silver-price').value) || 0;
+
+                document.getElementById('money-zakat').innerText = `المستحق: ${(money * 0.025).toFixed(3)} د.ك`;
+                document.getElementById('g24-zakat').innerText = `المستحق: ${(g24W * p24 * 0.025).toFixed(3)}`;
+                document.getElementById('g21-zakat').innerText = `المستحق: ${(g21W * p21 * 0.025).toFixed(3)}`;
+                document.getElementById('g18-zakat').innerText = `المستحق: ${(g18W * p18 * 0.025).toFixed(3)}`;
+                document.getElementById('silver-zakat').innerText = `المستحق: ${(silW * pSil * 0.025).toFixed(3)}`;
+            }
+
+            // 4. وظيفة الحساب النهائي
             function calculateZakat() {
                 const money = parseFloat(document.getElementById('money').value) || 0;
                 const gold24Weight = parseFloat(document.getElementById('gold24').value) || 0;
@@ -1245,15 +1286,11 @@
                 
                 resultDiv.innerHTML = `
                     <div class="bg-green-50 border-r-8 border-green-600 p-6 rounded-lg shadow-md text-right">
-                        <h2 class="text-xl font-bold text-green-800 mb-2">نتيجة الحساب:</h2>
-                        <p class="text-gray-700">إجمالي قيمة المال والأصول: <span class="font-bold">${totalValue.toFixed(3)} د.ك</span></p>
-                        <p class="text-2xl font-bold text-primary mt-4 italic">مقدار الزكاة المستحقة (2.5%): ${zakatAmount.toFixed(3)} د.ك</p>
+                        <p class="text-2xl font-bold text-primary italic">اجمالي الزكاة المستحقة هي: ${zakatAmount.toFixed(3)} د.ك</p>
                     </div>
                 `;
             }
         </script>
     </div>
 </body>
-</html>
-  </body>
 </html>
