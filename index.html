@@ -65,17 +65,12 @@
         background: rgba(255, 255, 255, 0.25);
         transform: translateY(-2px);
       }
-      /* هنا ننادي الاسم اللي اخترناه ونعطيه الأوامر */
       #mainLogo {
-        transition: all 0.4s ease; /* نجعل الحركة ناعمة */
+        transition: all 0.4s ease;
       }
-
-      /* ماذا يحدث عندما يمر الماوس فوق الاسم؟ */
       #mainLogo:hover {
-        transform: scale(1.3); /* يكبر بنسبة 30% */
-        filter: drop-shadow(
-          0 0 10px rgba(199, 172, 37, 0.5)
-        ); /* يضيف لمعة ذهبية */
+        transform: scale(1.3);
+        filter: drop-shadow(0 0 10px rgba(199, 172, 37, 0.5));
       }
     </style>
   </head>
@@ -343,6 +338,7 @@
       }
 
       const filesData = [
+        // قسم الهياكل (لم يتغير)
         {
           id: 301,
           name: "الهيكل الاداري للاشراف الفني والاداري",
@@ -364,114 +360,118 @@
           url: "https://drive.google.com/file/d/1IdZ-zExU-yYOlLEdK9n0KXj2YVkYBfWV/view?usp=drive_link",
           type: "structure",
         },
+
+        // قسم النماذج العامة (العمل المطلوب فقط هنا)
         {
           id: 1,
           name: "نموذج إجراء تصحيحي",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/19YGZE9LfgFalTXkKlH6nU_y1Ldkln2eZ/preview",
+          url: "https://drive.google.com/uc?export=download&id=1tXe4glhlJ6PcyOXR7Owy6k6wCjjwUeJM",
         },
         {
           id: 2,
           name: "نموذج استلام عام",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1Mlx0kH1bg4i4EULryCnDS74KNuhUz0vN/preview",
+          url: "https://drive.google.com/uc?export=download&id=1TyH9NEVynrggQ6LYsxxqxcypxm-dL1lF",
         },
         {
           id: 3,
           name: "نموذج استلام عهدة",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1RzScOOp_dNe3lQPmQFvlSGTAonQFimSx/preview",
+          url: "https://drive.google.com/uc?export=download&id=1HhNDJ7R5VlcBi44DelJANDwRpPpaP4sE",
         },
         {
           id: 4,
           name: "نموذج استلام وتسليم",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/17HwD5iAfdxhhs5X5Fy3S62i5Xuu13V0g/preview",
+          url: "https://drive.google.com/uc?export=download&id=1dm74gYfTCWiCeV8EKMIXrooWT8GBzyx2",
         },
         {
           id: 5,
           name: "نموذج اقتراح",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1iMjbsgiSByWXj-6_leblk59t_Ccz8YcS/preview",
+          url: "https://drive.google.com/uc?export=download&id=1WfogoBTCzeTRo64qFde9M-V4GKzt8QmX",
         },
         {
           id: 6,
           name: "نموذج الوصف الوظيفي",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1gUunzPhytxXvuUQmiD_6yg9aCFPM1f-Y/preview",
+          url: "https://drive.google.com/uc?export=download&id=1s9xKE10nxeyTtSu9nZTBC8MSVMDqF-fX",
         },
         {
           id: 7,
           name: "نموذج وصف القسم",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1VL0zjfx2PjCpfLOg2Bcc4I1vQpSy6ees/preview",
+          url: "https://drive.google.com/uc?export=download&id=1Sl2HTy39Az3TzYFhLvrNEVp5L2QmfwPU",
         },
         {
           id: 8,
           name: "نموذج ترشيح دورة",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1Q8bhOsSgI2B8KAnDwEYPZd1nugo3pkmv/preview",
+          url: "https://drive.google.com/uc?export=download&id=1lcBxv1X-GVbzLJHWr_7c3hxT-SxArW3K",
         },
         {
           id: 9,
           name: "نموذج تعميم داخلي",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1qpLNGsm3HLb7Fs0kLMSHytNYCxto_W78/preview",
+          url: "https://drive.google.com/uc?export=download&id=1aMhjtG4wUByPMC-_-IMNKd5nZhlnpz_H",
         },
         {
           id: 10,
           name: "نموذج تقييم اداء الموظفين",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/19IHibkVK6TE5y4SjJDFKQuwCZuNWKcSo/preview",
+          url: "https://drive.google.com/uc?export=download&id=1AHPs3bw6tBcFZ90xX04J8V7MZW76XN6w",
         },
         {
           id: 11,
           name: "نموذج تكليف بمهمة",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1V3Sv1ALIDmD_k5kbcyh3krDWDODIiiHT/preview",
+          url: "https://drive.google.com/uc?export=download&id=1KYJoAGWGB9FllMhJMtnCX3DfAxxoPgED",
         },
         {
           id: 12,
           name: "نموذج توجيه",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1Trh18QyuRtHozB-GtX3ltVGBpr6oQ3gF/preview",
+          url: "https://drive.google.com/uc?export=download&id=1l_B69Hgfl_ectCtH8TzNiXrU6s122lsj",
         },
         {
           id: 13,
           name: "نموذج صيانة",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1lgMODb0LNBT0YdsH7fgO9yKo00tp8Wub/preview",
+          url: "https://drive.google.com/uc?export=download&id=1WND9wln8K101zzIWdgf2hpHuFTr5ia9X",
         },
         {
           id: 14,
           name: "نموذج طلب استبيان",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/149IufCNTiX98jwN9MbSAIMVK1zHxBsXN/preview",
+          url: "https://drive.google.com/uc?export=download&id=1oH7QDQDv8iik41pXratg0upbe-ekYGCN",
         },
         {
           id: 15,
           name: "نموذج عدم مطابقة",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/111U-r3p2NnEDvKC7iv41HSSEIcroD1id/preview",
+          url: "https://drive.google.com/uc?export=download&id=1M0x5CX3Z92v4kzPAb2h75QM1ZjeRrXst",
         },
         {
           id: 16,
           name: "نموذج كتاب رسمي داخلي",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1zj4HDzHk20xZNlxw9xGZ4eIOVVmXA7o2/preview",
+          url: "https://drive.google.com/uc?export=download&id=1zSGb-jfBA8B9hEApN_rOCAR7GmakVfGP",
         },
         {
           id: 17,
           name: "نموذج الخطة التشغيلية",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1Ac5uUBtfXOyM4QUxsCaNjbZvzMupSdyf/preview",
+          url: "https://drive.google.com/uc?export=download&id=1FneWFTwdiXn7fNO2RY4cxzzQPr-1pxJW",
         },
         {
           id: 18,
           name: "نموذج التدقيق الداخلي",
           category: "النماذج العامة",
-          url: "https://drive.google.com/file/d/1RqhHUVVoPvfPCayX1uwvGUpNhsebkfm0/preview",
+          url: "https://drive.google.com/uc?export=download&id=1I0lnBDRQSQwflPbGSaD48YiEDw88FaMw",
         },
+
+        // بقية البيانات (لم تتغير)
         {
           id: 1001,
           name: "خالد صالح - قسم الارشيف",
@@ -809,7 +809,6 @@
         });
       }
 
-      // الدالة المعدلة للبحث الشامل
       function renderFiles() {
         const container = document.getElementById("filesContainer");
         const searchTerm = document
@@ -817,53 +816,64 @@
           .value.trim()
           .toLowerCase();
         container.innerHTML = "";
-
         let filtered;
-
-        // إذا كان البحث فارغاً، التزم بالقسم الحالي
         if (searchTerm === "") {
           filtered = filesData.filter((f) => f.category === currentCategory);
         } else {
-          // إذا كان هناك نص، ابحث في كل البيانات (بحث شامل)
           filtered = filesData.filter(
             (f) =>
               f.name.toLowerCase().includes(searchTerm) ||
               f.category.toLowerCase().includes(searchTerm)
           );
         }
-
         if (filtered.length === 0) {
           container.innerHTML =
             '<div class="text-center py-10 text-slate-400 font-bold">لا توجد نتائج تطابق بحثك</div>';
           return;
         }
-
         filtered.forEach((file) => {
-          const icon = file.type === "structure" ? "fa-sitemap" : "fa-file-pdf";
+          const isDownload = file.url.includes("export=download"); // فحص هل الرابط للتحميل
+          const icon =
+            file.type === "structure"
+              ? "fa-sitemap"
+              : isDownload
+              ? "fa-file-word"
+              : "fa-file-pdf";
           const iconBg =
-            file.type === "structure" ? "bg-yellow-50" : "bg-green-50";
+            file.type === "structure"
+              ? "bg-yellow-50"
+              : isDownload
+              ? "bg-blue-50"
+              : "bg-green-50";
           const iconColor =
-            file.type === "structure" ? "text-[#C7AC25]" : "text-[#097834]";
+            file.type === "structure"
+              ? "text-[#C7AC25]"
+              : isDownload
+              ? "text-blue-600"
+              : "text-[#097834]";
+
+          // أيقونة الزر تتغير بناءً على نوع الرابط
+          const actionIcon = isDownload ? "fa-download" : "fa-eye";
+          const btnColor = isDownload ? "bg-primary" : "bg-[#C7AC25]";
 
           container.innerHTML += `
-                    <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm mb-4 flex items-center justify-between transition hover:shadow-md animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <div class="flex items-center gap-4 text-right">
-                            <div class="${iconBg} w-12 h-12 rounded-xl flex items-center justify-center"><i class="fas ${icon} ${iconColor} text-xl"></i></div>
-                            <div>
-                                 <h3 class="font-bold text-slate-800 text-sm">${file.name}</h3>
-                                 <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-bold">${file.category}</span>
-                            </div>
-                        </div>
-                        <a href="${file.url}" target="_blank" class="bg-[#C7AC25] text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition hover:scale-110">
-                            <i class="fas fa-eye text-xs"></i>
-                        </a>
-                    </div>`;
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm mb-4 flex items-center justify-between transition hover:shadow-md animate-in fade-in slide-in-from-bottom-2 duration-300">
+                <div class="flex items-center gap-4 text-right">
+                    <div class="${iconBg} w-12 h-12 rounded-xl flex items-center justify-center"><i class="fas ${icon} ${iconColor} text-xl"></i></div>
+                    <div>
+                         <h3 class="font-bold text-slate-800 text-sm">${file.name}</h3>
+                         <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-bold">${file.category}</span>
+                    </div>
+                </div>
+                <a href="${file.url}" target="_blank" class="${btnColor} text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg transition hover:scale-110">
+                    <i class="fas ${actionIcon} text-xs"></i>
+                </a>
+            </div>`;
         });
       }
 
       function filterCategory(cat) {
         currentCategory = cat;
-        // عند اختيار قسم، نقوم بمسح خانة البحث ليعود العرض مخصصاً للقسم
         document.getElementById("searchInput").value = "";
         document.querySelectorAll(".cat-btn").forEach((btn) => {
           btn.classList.toggle(
@@ -880,5 +890,370 @@
       }
       window.onload = renderFiles;
     </script>
+    <!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة الزكاة الذكية</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700;900&display=swap");
+        
+        :root {
+            --primary-color: #097834;
+            --secondary-color: #C7AC25;
+        }
+
+        body {
+            font-family: "Noto Sans Arabic", sans-serif;
+            background-color: #f9f9f9;
+            color: #444;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .text-primary { color: var(--primary-color); }
+        .text-secondary { color: var(--secondary-color); }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover { 
+            background-color: #05652e; 
+            transform: translateY(-1px); 
+        }
+        
+        .editable-price {
+            border: 1px dashed var(--secondary-color);
+            background: #fffdf2;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--primary-color);
+            font-weight: bold;
+            width: 90px;
+        }
+
+        .editable-price:focus {
+            outline: none;
+            border-style: solid;
+            background: #fff;
+        }
+
+        .label-style {
+            display: block;
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--secondary-color);
+        }
+
+        /* تنسيق القائمة الجانبية (Sidebar) */
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            background-color: white;
+            overflow-x: hidden;
+            transition: 0.4s;
+            padding-top: 60px;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            color: #444;
+            display: block;
+            transition: 0.3s;
+            font-weight: bold;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .sidebar a:hover {
+            background-color: #f8fcf9;
+            color: var(--primary-color);
+        }
+
+        .sidebar .closebtn {
+            position: absolute;
+            top: 10px;
+            left: 25px;
+            font-size: 36px;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+        
+        /* زر الثلاث شخطات (Hamburger Menu) */
+        .openbtn {
+            font-size: 24px;
+            cursor: pointer;
+            background-color: white;
+            color: var(--primary-color);
+            padding: 10px 15px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 999;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* تنسيق النافذة المنبثقة (Modal) */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: #f9f9f9;
+            margin: 5% auto; 
+            padding: 20px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .close-modal {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        .welcome-screen {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-right">
+
+    <button class="openbtn" onclick="openNav()">☰</button>
+
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="#" onclick="showZakat()">حاسبة الزكاة</a>
+        <a href="#" onclick="location.reload()">الرئيسية</a>
+    </div>
+
+    <div id="main-content" class="max-w-4xl mx-auto px-4 py-8 mt-12">
+        
+        <div id="welcome-screen" class="welcome-screen">
+            <h2 class="text-2xl font-bold text-gray-400">أهلاً بك في الموقع</h2>
+            <p class="text-gray-500 mt-2">يرجى الضغط على القائمة (☰) واختيار "حاسبة الزكاة" لاستخدام الخدمة.</p>
+        </div>
+
+        <div id="zakatModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeZakat()">&times;</span>
+                
+                <div id="zakat-calculator-section">
+                    <h1 class="text-3xl font-bold text-primary mb-2 text-center">حاسبة الزكاة</h1>
+                    <p id="loading-prices" class="text-center text-gray-500 mb-8 text-sm italic">جارٍ فحص حالة الأسعار المحدثة...</p>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6">
+                        <label for="money" class="label-style">إجمالي المال السائل والمدخرات (د.ك):</label>
+                        <input type="number" id="money" class="w-full p-4 rounded-lg border border-gray-200 focus:ring-2 focus:ring-green-600 focus:outline-none text-xl" placeholder="0.000">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <label class="label-style">ذهب عيار 24 (جرام)</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" id="gold24" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
+                                    <input type="number" id="gold24-price" class="editable-price p-2" step="0.001">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <label class="label-style">ذهب عيار 21 (جرام)</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" id="gold21" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
+                                    <input type="number" id="gold21-price" class="editable-price p-2" step="0.001">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <label class="label-style">ذهب عيار 18 (جرام)</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" id="gold18" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
+                                    <input type="number" id="gold18-price" class="editable-price p-2" step="0.001">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                            <label class="label-style">الفضة (جرام)</label>
+                            <div class="flex items-center gap-3">
+                                <input type="number" id="silver" class="flex-grow p-3 rounded-lg border border-gray-200 focus:outline-none" placeholder="الوزن">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-xs text-gray-400 mb-1">سعر الجرام</span>
+                                    <input type="number" id="silver-price" class="editable-price p-2" step="0.001">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="calculateZakat()" class="w-full btn-primary p-4 rounded-xl text-xl font-bold shadow-lg">احسب الزكاة المستحقة</button>
+
+                    <div id="result" class="mt-8"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // 1. وظائف التحكم بالقائمة الجانبية
+            function openNav() {
+                document.getElementById("mySidebar").style.width = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidebar").style.width = "0";
+            }
+
+            // 2. وظيفة التبديل لعرض الحاسبة (انبثاق Modal)
+            function showZakat() {
+                document.getElementById("zakatModal").style.display = "block";
+                closeNav();
+                fetchMetalPrices(); 
+            }
+
+            function closeZakat() {
+                document.getElementById("zakatModal").style.display = "none";
+            }
+
+            // إغلاق النافذة عند الضغط خارجها
+            window.onclick = function(event) {
+                let modal = document.getElementById("zakatModal");
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // 3. منطق جلب أسعار المعادن
+            const STORAGE_KEY = "zakat_metal_data";
+
+            async function fetchMetalPrices() {
+                const loadingText = document.getElementById('loading-prices');
+                const now = new Date();
+                const todayDate = now.toISOString().split('T')[0];
+                const storedData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+                if (storedData && storedData.date === todayDate) {
+                    applyPrices(storedData.prices);
+                    loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} كما يمكنك تعديلها يدوياً.`;
+                    loadingText.classList.replace('text-gray-500', 'text-green-600');
+                    return;
+                }
+
+                try {
+                    const headers = { "x-access-token": "goldapi-2podhqsmo5yvfh5-io", "Content-Type": "application/json" };
+                    const goldRes = await fetch('https://www.goldapi.io/api/XAU/KWD', { headers });
+                    const silverRes = await fetch('https://www.goldapi.io/api/XAG/KWD', { headers });
+
+                    const goldData = await goldRes.json();
+                    const silverData = await silverRes.json();
+
+                    if(goldData.price) {
+                        const baseGold = goldData.price / 31.1035;
+                        const prices = {
+                            g24: baseGold.toFixed(3),
+                            g21: (baseGold * 0.875).toFixed(3),
+                            g18: (baseGold * 0.75).toFixed(3),
+                            silver: (silverData.price / 31.1035).toFixed(3)
+                        };
+
+                        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                            date: todayDate,
+                            prices: prices
+                        }));
+
+                        applyPrices(prices);
+                        loadingText.innerHTML = `✅ الاسعار محدثة في تاريخ ${todayDate} كما يمكنك تعديلها يدوياً.`;
+                        loadingText.classList.replace('text-gray-500', 'text-green-600');
+                    }
+                } catch (error) {
+                    loadingText.innerHTML = "⚠️ فشل التحديث التلقائي. يرجى إدخال أسعار الجرام يدوياً.";
+                    loadingText.classList.replace('text-gray-500', 'text-red-600');
+                    if(storedData) applyPrices(storedData.prices);
+                }
+            }
+
+            function applyPrices(prices) {
+                document.getElementById('gold24-price').value = prices.g24;
+                document.getElementById('gold21-price').value = prices.g21;
+                document.getElementById('gold18-price').value = prices.g18;
+                document.getElementById('silver-price').value = prices.silver;
+            }
+
+            // 4. وظيفة الحساب (مباشرة بدون نصاب)
+            function calculateZakat() {
+                const money = parseFloat(document.getElementById('money').value) || 0;
+                const gold24Weight = parseFloat(document.getElementById('gold24').value) || 0;
+                const gold21Weight = parseFloat(document.getElementById('gold21').value) || 0;
+                const gold18Weight = parseFloat(document.getElementById('gold18').value) || 0;
+                const silverWeight = parseFloat(document.getElementById('silver').value) || 0;
+
+                const p24 = parseFloat(document.getElementById('gold24-price').value) || 0;
+                const p21 = parseFloat(document.getElementById('gold21-price').value) || 0;
+                const p18 = parseFloat(document.getElementById('gold18-price').value) || 0;
+                const pSilver = parseFloat(document.getElementById('silver-price').value) || 0;
+
+                const totalValue = money + (gold24Weight * p24) + (gold21Weight * p21) + (gold18Weight * p18) + (silverWeight * pSilver);
+                const zakatAmount = totalValue * 0.025;
+
+                let resultDiv = document.getElementById('result');
+                
+                resultDiv.innerHTML = `
+                    <div class="bg-green-50 border-r-8 border-green-600 p-6 rounded-lg shadow-md text-right">
+                        <h2 class="text-xl font-bold text-green-800 mb-2">نتيجة الحساب:</h2>
+                        <p class="text-gray-700">إجمالي قيمة المال والأصول: <span class="font-bold">${totalValue.toFixed(3)} د.ك</span></p>
+                        <p class="text-2xl font-bold text-primary mt-4 italic">مقدار الزكاة المستحقة (2.5%): ${zakatAmount.toFixed(3)} د.ك</p>
+                    </div>
+                `;
+            }
+        </script>
+    </div>
+</body>
+</html>
   </body>
 </html>
