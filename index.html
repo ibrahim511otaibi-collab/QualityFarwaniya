@@ -1290,5 +1290,83 @@
             }
         </script>
     </div>
+  <!-- ========== نافذة إدارة عدم المطابقة (خيار نموذج جديد) ========== -->
+<div id="ncrOptionsModal" class="fixed inset-0 bg-black/70 z-[200] hidden items-center justify-center p-4 backdrop-blur-md">
+    <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl">
+        <div class="bg-primary p-5 text-white flex justify-between items-center">
+            <h3 class="text-xl font-bold"><i class="fas fa-clipboard-list ml-2"></i> إدارة عدم المطابقة</h3>
+            <button onclick="closeNcrOptionsModal()" class="text-white/70 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
+        </div>
+        <div class="p-6">
+            <button id="newNcrBtn" class="w-full text-right bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-4 transition flex items-center gap-3">
+                <i class="fas fa-plus-circle text-green-700 text-2xl"></i>
+                <div>
+                    <div class="font-bold text-lg">نموذج عدم مطابقة جديد</div>
+                    <div class="text-sm text-gray-500">تسجيل حالة عدم مطابقة (NCR)</div>
+                </div>
+            </button>
+            <!-- هنا سيتم لاحقاً إضافة زر "تقارير حالات عدم المطابقة" -->
+        </div>
+    </div>
+</div>
+
+<!-- ========== نافذة نظام NCR (تعمل عند الضغط على نموذج جديد) ========== -->
+<div id="ncrModal" class="fixed inset-0 bg-black/80 z-[210] hidden items-center justify-center p-4 backdrop-blur-sm overflow-auto">
+    <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl relative" style="max-height: 90vh; overflow-y: auto;">
+        <div class="sticky top-0 bg-primary p-3 text-white flex justify-between items-center rounded-t-2xl">
+            <h3 class="font-bold"><i class="fas fa-file-signature ml-2"></i> نموذج عدم مطابقة جديد</h3>
+            <button onclick="closeNcrModal()" class="text-white/70 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
+        </div>
+        <div class="p-5" id="ncrContent">
+            <div class="text-center py-10">جاري تحميل النموذج...</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // دوال فتح وإغلاق النافذة
+    function openNcrOptionsModal() {
+        document.getElementById('ncrOptionsModal').classList.add('modal-active');
+    }
+    function closeNcrOptionsModal() {
+        document.getElementById('ncrOptionsModal').classList.remove('modal-active');
+    }
+    function closeNcrModal() {
+        document.getElementById('ncrModal').classList.remove('modal-active');
+    }
+
+    // تحميل نظام NCR داخل النافذة (نفس الكود الذي كان يعمل سابقاً)
+    function openNCRForm() {
+        closeNcrOptionsModal();
+        const modal = document.getElementById('ncrModal');
+        const container = document.getElementById('ncrContent');
+        // هنا نضع رابط نظام NCR (إذا كان موجوداً في ملف منفصل، استخدم iframe)
+        // ولكن بما أنك قمت بتعديل نظام NCR مباشرة في صفحة منفصلة، الأفضل تحميله عبر iframe
+        // سأفترض أن ملف NCR موجود في نفس المجلد باسم "ncr.html"
+        // إذا لم يكن موجوداً، استخدم الرابط الكامل لنظام NCR الذي يعمل لديك
+        container.innerHTML = `<iframe src="ncr.html" style="width:100%; height:85vh; border:none; border-radius:20px;"></iframe>`;
+        modal.classList.add('modal-active');
+    }
+
+    // تعديل دالة filterCategory لفتح نافذة الخيارات عند الضغط على "عمليات التدقيق الداخلي" (أو "إدارة عدم المطابقة")
+    // نحرص على عدم فقدان الدالة الأصلية
+    if (typeof window.originalFilterCategory === 'undefined') {
+        window.originalFilterCategory = window.filterCategory;
+    }
+    window.filterCategory = function(cat) {
+        // لاحظ: النص الموجود في زر التصنيف قد يكون "عمليات التدقيق الداخلي" أو "إدارة عدم المطابقة"
+        // سأتحقق من الاثنين
+        if (cat === "عمليات التدقيق الداخلي" || cat === "إدارة عدم المطابقة") {
+            openNcrOptionsModal();
+            return;
+        }
+        if (window.originalFilterCategory) {
+            window.originalFilterCategory(cat);
+        }
+    };
+
+    // ربط زر "نموذج عدم مطابقة جديد" بفتح النموذج
+    document.getElementById('newNcrBtn')?.addEventListener('click', openNCRForm);
+</script>
 </body>
 </html>
