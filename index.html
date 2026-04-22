@@ -1305,12 +1305,11 @@
                     <div class="text-sm text-gray-500">تسجيل حالة عدم مطابقة (NCR)</div>
                 </div>
             </button>
-            <!-- هنا سيتم لاحقاً إضافة زر "تقارير حالات عدم المطابقة" -->
         </div>
     </div>
 </div>
 
-<!-- ========== نافذة نظام NCR (تعمل عند الضغط على نموذج جديد) ========== -->
+<!-- ========== نافذة نموذج عدم المطابقة (نظام NCR) ========== -->
 <div id="ncrModal" class="fixed inset-0 bg-black/80 z-[210] hidden items-center justify-center p-4 backdrop-blur-sm overflow-auto">
     <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl relative" style="max-height: 90vh; overflow-y: auto;">
         <div class="sticky top-0 bg-primary p-3 text-white flex justify-between items-center rounded-t-2xl">
@@ -1318,7 +1317,7 @@
             <button onclick="closeNcrModal()" class="text-white/70 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
         </div>
         <div class="p-5" id="ncrContent">
-            <div class="text-center py-10">جاري تحميل النموذج...</div>
+            <!-- هنا سيتم وضع كود نظام NCR -->
         </div>
     </div>
 </div>
@@ -1335,27 +1334,149 @@
         document.getElementById('ncrModal').classList.remove('modal-active');
     }
 
-    // تحميل نظام NCR داخل النافذة (نفس الكود الذي كان يعمل سابقاً)
-    function openNCRForm() {
+    // دالة تحميل نموذج NCR (كود النظام كاملاً)
+    function loadNCRForm() {
+        const container = document.getElementById('ncrContent');
+        container.innerHTML = `
+            <div class="ncr-wrapper">
+                <style>
+                    .ncr-wrapper .form-group { margin-bottom: 15px; }
+                    .ncr-wrapper label { display: block; font-weight: bold; margin-bottom: 5px; color: #333; }
+                    .ncr-wrapper input, .ncr-wrapper select, .ncr-wrapper textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-family: 'Noto Sans Arabic', sans-serif; }
+                    .ncr-wrapper .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; color: white; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 16px; }
+                    .ncr-wrapper .btn-save { background: #097834; }
+                    .ncr-wrapper .locked { background-color: #f0f0f0 !important; cursor: not-allowed; border: 1px solid #ccc !important; color: #555 !important; pointer-events: none; }
+                </style>
+                <div id="ncrForm">
+                    <div class="form-group">
+                        <label>رقم الحالة (ID):</label>
+                        <input type="text" id="ncrId" class="locked" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>اسم مقدم الحالة:</label>
+                        <input type="text" id="ncrAuditor" placeholder="أدخل اسمك">
+                    </div>
+                    <div class="form-group">
+                        <label>القسم المعني:</label>
+                        <select id="ncrDepartment">
+                            <option value="">-- اختر القسم --</option>
+                            <option value="قسم الرعاية الاجتماعية">قسم الرعاية الاجتماعية</option>
+                            <option value="قسم حلقات تحفيظ القرآن">قسم حلقات تحفيظ القرآن</option>
+                            <option value="قسم الارشيف">قسم الارشيف</option>
+                            <option value="قسم الاستقبال">قسم الاستقبال</option>
+                            <option value="قسم الاستقطاعات">قسم الاستقطاعات</option>
+                            <option value="قسم الاشراف الفني">قسم الاشراف الفني</option>
+                            <option value="قسم الاشراف الاداري">قسم الاشراف الاداري</option>
+                            <option value="قسم الاعلامية والتسويق">قسم الاعلامية والتسويق</option>
+                            <option value="قسم ضبط الجودة">قسم ضبط الجودة</option>
+                            <option value="قسم الدعم الفني">قسم الدعم الفني</option>
+                            <option value="قسم الكلمة الطيبة">قسم الكلمة الطيبة</option>
+                            <option value="قسم اللجنة العلمية">قسم اللجنة العلمية</option>
+                            <option value="قسم المشاريع">قسم المشاريع</option>
+                            <option value="قسم النشء والشباب">قسم النشء والشباب</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>مصدر الحالة:</label>
+                        <select id="ncrSource">
+                            <option value="شكوى">شكوى</option>
+                            <option value="تدقيق داخلي">تدقيق داخلي</option>
+                            <option value="ملاحظة">ملاحظة</option>
+                            <option value="تحليل بيانات">تحليل بيانات</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>مستوى الخطورة:</label>
+                        <select id="ncrRisk">
+                            <option value="منخفضة">منخفضة</option>
+                            <option value="متوسطة">متوسطة</option>
+                            <option value="عالية">عالية</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>وصف عدم المطابقة:</label>
+                        <textarea id="ncrDesc" rows="3" placeholder="اشرح حالة عدم المطابقة هنا..."></textarea>
+                    </div>
+                    <button id="saveNcrBtn" class="btn btn-save">💾 حفظ وإرسال إلى الجهة المعنية</button>
+                </div>
+            </div>
+        `;
+
+        // توليد رقم عشوائي للحالة
+        document.getElementById('ncrId').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
+
+        // ربط زر الحفظ
+        document.getElementById('saveNcrBtn').addEventListener('click', saveNCR);
+    }
+
+    // دالة حفظ وإرسال إلى الجهة المعنية (واتساب)
+    async function saveNCR() {
+        const id = document.getElementById('ncrId').value;
+        const auditor = document.getElementById('ncrAuditor').value;
+        const department = document.getElementById('ncrDepartment').value;
+        const source = document.getElementById('ncrSource').value;
+        const risk = document.getElementById('ncrRisk').value;
+        const desc = document.getElementById('ncrDesc').value;
+
+        if (!auditor || !desc) {
+            alert("الرجاء تعبئة اسم مقدم الحالة والوصف.");
+            return;
+        }
+        if (!department) {
+            alert("الرجاء اختيار القسم.");
+            return;
+        }
+
+        const btn = document.getElementById('saveNcrBtn');
+        btn.disabled = true;
+        btn.innerText = "⏳ جاري الحفظ...";
+
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec"; // ضع رابط السكربت الصحيح
+        const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/"; // الرابط الذي تريد توجيه المسؤول إليه
+
+        const payload = {
+            id, auditor, department, source, risk, desc,
+            rootCause: "", action: "", manager: ""
+        };
+
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            btn.innerText = "⏳ جاري التوجيه...";
+            const shortPageUrl = `${managerPortalURL}?id=${id}`;
+            const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nمقدم الحالة: ${auditor}\nالقسم: ${department}\nالوصف: ${desc}\n---\n*يرجى الرد عبر الرابط:*\n${shortPageUrl}`;
+            // رقم واتساب الجهة المعنية (يجب تغييره إلى رقم قسم الجودة)
+            window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
+        } catch (err) {
+            console.error(err);
+            alert("حدث خطأ أثناء الحفظ. حاول مرة أخرى.");
+            btn.disabled = false;
+            btn.innerText = "💾 حفظ وإرسال";
+        }
+    }
+
+    // فتح نافذة الخيارات
+    function openNCRModalWithForm() {
         closeNcrOptionsModal();
         const modal = document.getElementById('ncrModal');
-        const container = document.getElementById('ncrContent');
-        // هنا نضع رابط نظام NCR (إذا كان موجوداً في ملف منفصل، استخدم iframe)
-        // ولكن بما أنك قمت بتعديل نظام NCR مباشرة في صفحة منفصلة، الأفضل تحميله عبر iframe
-        // سأفترض أن ملف NCR موجود في نفس المجلد باسم "ncr.html"
-        // إذا لم يكن موجوداً، استخدم الرابط الكامل لنظام NCR الذي يعمل لديك
-        container.innerHTML = `<iframe src="ncr.html" style="width:100%; height:85vh; border:none; border-radius:20px;"></iframe>`;
+        loadNCRForm();  // تحميل النموذج
         modal.classList.add('modal-active');
     }
 
-    // تعديل دالة filterCategory لفتح نافذة الخيارات عند الضغط على "عمليات التدقيق الداخلي" (أو "إدارة عدم المطابقة")
-    // نحرص على عدم فقدان الدالة الأصلية
+    // ربط زر "نموذج عدم مطابقة جديد" بفتح النافذة
+    document.getElementById('newNcrBtn')?.addEventListener('click', openNCRModalWithForm);
+
+    // تعديل دالة filterCategory لفتح نافذة الخيارات
     if (typeof window.originalFilterCategory === 'undefined') {
         window.originalFilterCategory = window.filterCategory;
     }
     window.filterCategory = function(cat) {
-        // لاحظ: النص الموجود في زر التصنيف قد يكون "عمليات التدقيق الداخلي" أو "إدارة عدم المطابقة"
-        // سأتحقق من الاثنين
         if (cat === "عمليات التدقيق الداخلي" || cat === "إدارة عدم المطابقة") {
             openNcrOptionsModal();
             return;
@@ -1365,8 +1486,13 @@
         }
     };
 
-    // ربط زر "نموذج عدم مطابقة جديد" بفتح النموذج
-    document.getElementById('newNcrBtn')?.addEventListener('click', openNCRForm);
+    // دوال الإغلاق
+    function closeNcrOptionsModal() {
+        document.getElementById('ncrOptionsModal').classList.remove('modal-active');
+    }
+    function closeNcrModal() {
+        document.getElementById('ncrModal').classList.remove('modal-active');
+    }
 </script>
 </body>
 </html>
