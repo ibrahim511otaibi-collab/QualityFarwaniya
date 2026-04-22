@@ -1290,19 +1290,28 @@
             }
         </script>
     </div>
-  <!-- ========== نافذة إدارة عدم المطابقة (خيار نموذج جديد) ========== -->
+  <!-- ========== نافذة إدارة عدم المطابقة (خيارين) ========== -->
 <div id="ncrOptionsModal" class="fixed inset-0 bg-black/70 z-[200] hidden items-center justify-center p-4 backdrop-blur-md">
     <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl">
         <div class="bg-primary p-5 text-white flex justify-between items-center">
             <h3 class="text-xl font-bold"><i class="fas fa-clipboard-list ml-2"></i> إدارة عدم المطابقة</h3>
             <button onclick="closeNcrOptionsModal()" class="text-white/70 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
         </div>
-        <div class="p-6">
+        <div class="p-6 space-y-4">
+            <!-- زر نموذج جديد -->
             <button id="newNcrBtn" class="w-full text-right bg-green-50 hover:bg-green-100 border border-green-200 rounded-xl p-4 transition flex items-center gap-3">
                 <i class="fas fa-plus-circle text-green-700 text-2xl"></i>
                 <div>
                     <div class="font-bold text-lg">نموذج عدم مطابقة جديد</div>
                     <div class="text-sm text-gray-500">تسجيل حالة عدم مطابقة (NCR)</div>
+                </div>
+            </button>
+            <!-- زر تقارير الحالات -->
+            <button id="reportsBtn" class="w-full text-right bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl p-4 transition flex items-center gap-3">
+                <i class="fas fa-chart-bar text-blue-700 text-2xl"></i>
+                <div>
+                    <div class="font-bold text-lg">تقارير حالات عدم المطابقة</div>
+                    <div class="text-sm text-gray-500">عرض جميع الحالات السابقة</div>
                 </div>
             </button>
         </div>
@@ -1316,25 +1325,47 @@
             <h3 class="font-bold"><i class="fas fa-file-signature ml-2"></i> نموذج عدم مطابقة جديد</h3>
             <button onclick="closeNcrModal()" class="text-white/70 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
         </div>
-        <div class="p-5" id="ncrContent">
-            <!-- هنا سيتم وضع كود نظام NCR -->
+        <div class="p-5" id="ncrContent"></div>
+    </div>
+</div>
+
+<!-- ========== نافذة تقارير حالات عدم المطابقة ========== -->
+<div id="reportsModal" class="fixed inset-0 bg-black/80 z-[220] hidden items-center justify-center p-4 backdrop-blur-sm overflow-auto">
+    <div class="bg-white w-full max-w-5xl rounded-2xl shadow-2xl relative" style="max-height: 90vh; overflow-y: auto;">
+        <div class="sticky top-0 bg-primary p-3 text-white flex justify-between items-center rounded-t-2xl">
+            <h3 class="font-bold"><i class="fas fa-chart-bar ml-2"></i> تقارير حالات عدم المطابقة</h3>
+            <button onclick="closeReportsModal()" class="text-white/70 hover:text-white"><i class="fas fa-times-circle text-2xl"></i></button>
+        </div>
+        <div class="p-5">
+            <div id="reportsLoading" class="text-center py-10">⏳ جاري تحميل البيانات...</div>
+            <div id="reportsTableContainer" style="display:none;">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-4 py-2 text-right border-b">رقم الحالة</th>
+                            <th class="px-4 py-2 text-right border-b">القسم</th>
+                            <th class="px-4 py-2 text-right border-b">مقدم الحالة</th>
+                            <th class="px-4 py-2 text-right border-b">تاريخ الإنشاء</th>
+                            <th class="px-4 py-2 text-right border-b">مستوى الخطورة</th>
+                            <th class="px-4 py-2 text-right border-b">الحالة</th>
+                            <th class="px-4 py-2 text-right border-b">الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsTableBody"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // دوال فتح وإغلاق النافذة
-    function openNcrOptionsModal() {
-        document.getElementById('ncrOptionsModal').classList.add('modal-active');
-    }
-    function closeNcrOptionsModal() {
-        document.getElementById('ncrOptionsModal').classList.remove('modal-active');
-    }
-    function closeNcrModal() {
-        document.getElementById('ncrModal').classList.remove('modal-active');
-    }
+    // دوال النوافذ
+    function openNcrOptionsModal() { document.getElementById('ncrOptionsModal').classList.add('modal-active'); }
+    function closeNcrOptionsModal() { document.getElementById('ncrOptionsModal').classList.remove('modal-active'); }
+    function closeNcrModal() { document.getElementById('ncrModal').classList.remove('modal-active'); }
+    function closeReportsModal() { document.getElementById('reportsModal').classList.remove('modal-active'); }
 
-    // دالة تحميل نموذج NCR (كود النظام كاملاً)
+    // === نموذج NCR ===
     function loadNCRForm() {
         const container = document.getElementById('ncrContent');
         container.innerHTML = `
@@ -1348,68 +1379,27 @@
                     .ncr-wrapper .locked { background-color: #f0f0f0 !important; cursor: not-allowed; border: 1px solid #ccc !important; color: #555 !important; pointer-events: none; }
                 </style>
                 <div id="ncrForm">
-                    <div class="form-group">
-                        <label>رقم الحالة (ID):</label>
-                        <input type="text" id="ncrId" class="locked" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label>اسم مقدم الحالة:</label>
-                        <input type="text" id="ncrAuditor" placeholder="أدخل اسمك">
-                    </div>
-                    <div class="form-group">
-                        <label>القسم المعني:</label>
-                        <select id="ncrDepartment">
-                            <option value="">-- اختر القسم --</option>
-                            <option value="قسم الرعاية الاجتماعية">قسم الرعاية الاجتماعية</option>
-                            <option value="قسم حلقات تحفيظ القرآن">قسم حلقات تحفيظ القرآن</option>
-                            <option value="قسم الارشيف">قسم الارشيف</option>
-                            <option value="قسم الاستقبال">قسم الاستقبال</option>
-                            <option value="قسم الاستقطاعات">قسم الاستقطاعات</option>
-                            <option value="قسم الاشراف الفني">قسم الاشراف الفني</option>
-                            <option value="قسم الاشراف الاداري">قسم الاشراف الاداري</option>
-                            <option value="قسم الاعلامية والتسويق">قسم الاعلامية والتسويق</option>
-                            <option value="قسم ضبط الجودة">قسم ضبط الجودة</option>
-                            <option value="قسم الدعم الفني">قسم الدعم الفني</option>
-                            <option value="قسم الكلمة الطيبة">قسم الكلمة الطيبة</option>
-                            <option value="قسم اللجنة العلمية">قسم اللجنة العلمية</option>
-                            <option value="قسم المشاريع">قسم المشاريع</option>
-                            <option value="قسم النشء والشباب">قسم النشء والشباب</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>مصدر الحالة:</label>
-                        <select id="ncrSource">
-                            <option value="شكوى">شكوى</option>
-                            <option value="تدقيق داخلي">تدقيق داخلي</option>
-                            <option value="ملاحظة">ملاحظة</option>
-                            <option value="تحليل بيانات">تحليل بيانات</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>مستوى الخطورة:</label>
-                        <select id="ncrRisk">
-                            <option value="منخفضة">منخفضة</option>
-                            <option value="متوسطة">متوسطة</option>
-                            <option value="عالية">عالية</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>وصف عدم المطابقة:</label>
-                        <textarea id="ncrDesc" rows="3" placeholder="اشرح حالة عدم المطابقة هنا..."></textarea>
-                    </div>
+                    <div class="form-group"><label>رقم الحالة (ID):</label><input type="text" id="ncrId" class="locked" readonly></div>
+                    <div class="form-group"><label>اسم مقدم الحالة:</label><input type="text" id="ncrAuditor" placeholder="أدخل اسمك"></div>
+                    <div class="form-group"><label>القسم المعني:</label><select id="ncrDepartment">${generateDepartmentOptions()}</select></div>
+                    <div class="form-group"><label>مصدر الحالة:</label><select id="ncrSource"><option value="شكوى">شكوى</option><option value="تدقيق داخلي">تدقيق داخلي</option><option value="ملاحظة">ملاحظة</option><option value="تحليل بيانات">تحليل بيانات</option></select></div>
+                    <div class="form-group"><label>مستوى الخطورة:</label><select id="ncrRisk"><option value="منخفضة">منخفضة</option><option value="متوسطة">متوسطة</option><option value="عالية">عالية</option></select></div>
+                    <div class="form-group"><label>وصف عدم المطابقة:</label><textarea id="ncrDesc" rows="3" placeholder="اشرح حالة عدم المطابقة هنا..."></textarea></div>
                     <button id="saveNcrBtn" class="btn btn-save">💾 حفظ وإرسال إلى الجهة المعنية</button>
                 </div>
             </div>
         `;
-
-        // توليد رقم عشوائي للحالة
         document.getElementById('ncrId').value = "NCR-" + Math.floor(1000 + Math.random() * 9000);
-
-        // ربط زر الحفظ
         document.getElementById('saveNcrBtn').addEventListener('click', saveNCR);
     }
 
-    // دالة حفظ وإرسال إلى الجهة المعنية (واتساب)
+    function generateDepartmentOptions() {
+        const depts = ["قسم الرعاية الاجتماعية", "قسم حلقات تحفيظ القرآن", "قسم الارشيف", "قسم الاستقبال", "قسم الاستقطاعات", "قسم الاشراف الفني", "قسم الاشراف الاداري", "قسم الاعلامية والتسويق", "قسم ضبط الجودة", "قسم الدعم الفني", "قسم الكلمة الطيبة", "قسم اللجنة العلمية", "قسم المشاريع", "قسم النشء والشباب"];
+        let options = '<option value="">-- اختر القسم --</option>';
+        depts.forEach(d => options += `<option value="${d}">${d}</option>`);
+        return options;
+    }
+
     async function saveNCR() {
         const id = document.getElementById('ncrId').value;
         const auditor = document.getElementById('ncrAuditor').value;
@@ -1417,62 +1407,78 @@
         const source = document.getElementById('ncrSource').value;
         const risk = document.getElementById('ncrRisk').value;
         const desc = document.getElementById('ncrDesc').value;
-
-        if (!auditor || !desc) {
-            alert("الرجاء تعبئة اسم مقدم الحالة والوصف.");
-            return;
-        }
-        if (!department) {
-            alert("الرجاء اختيار القسم.");
-            return;
-        }
-
+        if (!auditor || !desc) { alert("الرجاء تعبئة اسم مقدم الحالة والوصف."); return; }
+        if (!department) { alert("الرجاء اختيار القسم."); return; }
         const btn = document.getElementById('saveNcrBtn');
-        btn.disabled = true;
-        btn.innerText = "⏳ جاري الحفظ...";
-
-        const scriptURL = "https://script.google.com/macros/s/AKfycby8am0fGQyVACbt9L-LHHXNuxgCEd5XNDXmLfin6g_8LFGutcZ9p3nQLhhVykz1upHC/exec"; // ضع رابط السكربت الصحيح
-        const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/"; // الرابط الذي تريد توجيه المسؤول إليه
-
-        const payload = {
-            id, auditor, department, source, risk, desc,
-            rootCause: "", action: "", manager: ""
-        };
-
+        btn.disabled = true; btn.innerText = "⏳ جاري الحفظ...";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec"; // ضع رابط السكربت الصحيح
+        const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/";
+        const payload = { id, auditor, department, source, risk, desc, rootCause: "", action: "", manager: "" };
         try {
-            await fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
+            await fetch(scriptURL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
             btn.innerText = "⏳ جاري التوجيه...";
             const shortPageUrl = `${managerPortalURL}?id=${id}`;
             const msgText = `*تنبيه جودة (NCR)*\nرقم الحالة: ${id}\nمقدم الحالة: ${auditor}\nالقسم: ${department}\nالوصف: ${desc}\n---\n*يرجى الرد عبر الرابط:*\n${shortPageUrl}`;
-            // رقم واتساب الجهة المعنية (يجب تغييره إلى رقم قسم الجودة)
             window.location.href = `https://wa.me/96566695443?text=${encodeURIComponent(msgText)}`;
+        } catch(err) { alert("حدث خطأ أثناء الحفظ."); btn.disabled = false; btn.innerText = "💾 حفظ وإرسال"; }
+    }
+
+    function openNCRModalWithForm() { closeNcrOptionsModal(); loadNCRForm(); document.getElementById('ncrModal').classList.add('modal-active'); }
+
+    // === تقارير الحالات ===
+    async function loadReports() {
+        const loadingDiv = document.getElementById('reportsLoading');
+        const tableContainer = document.getElementById('reportsTableContainer');
+        const tbody = document.getElementById('reportsTableBody');
+        loadingDiv.style.display = 'block';
+        tableContainer.style.display = 'none';
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec"; // نفس الرابط
+        try {
+            const response = await fetch(`${scriptURL}?action=list`);
+            const data = await response.json();
+            if (data && data.length) {
+                tbody.innerHTML = '';
+                data.forEach(record => {
+                    const row = `<tr class="border-b hover:bg-gray-50">
+                        <td class="px-4 py-2">${record.id || ''}</td>
+                        <td class="px-4 py-2">${record.department || ''}</td>
+                        <td class="px-4 py-2">${record.auditor || ''}</td>
+                        <td class="px-4 py-2">${record.created || ''}</td>
+                        <td class="px-4 py-2">${record.risk || ''}</td>
+                        <td class="px-4 py-2"><span class="px-2 py-1 rounded-full text-xs ${record.status === 'مغلق' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">${record.status || 'قيد المعالجة'}</span></td>
+                        <td class="px-4 py-2"><button onclick="viewNCRDetails('${record.id}')" class="bg-primary text-white px-3 py-1 rounded-lg text-sm">عرض التفاصيل</button></td>
+                    </tr>`;
+                    tbody.innerHTML += row;
+                });
+                loadingDiv.style.display = 'none';
+                tableContainer.style.display = 'block';
+            } else {
+                loadingDiv.innerHTML = '⚠️ لا توجد حالات مسجلة بعد.';
+            }
         } catch (err) {
-            console.error(err);
-            alert("حدث خطأ أثناء الحفظ. حاول مرة أخرى.");
-            btn.disabled = false;
-            btn.innerText = "💾 حفظ وإرسال";
+            loadingDiv.innerHTML = '❌ حدث خطأ في تحميل البيانات.';
         }
     }
 
-    // فتح نافذة الخيارات
-    function openNCRModalWithForm() {
-        closeNcrOptionsModal();
-        const modal = document.getElementById('ncrModal');
-        loadNCRForm();  // تحميل النموذج
-        modal.classList.add('modal-active');
+    function viewNCRDetails(id) {
+        closeReportsModal();
+        // نفتح نافذة NCR مع تمرير id لعرض التفاصيل (في وضع المسؤول/القراءة)
+        // يمكنك استخدام iframe مع الرابط: managerPortalURL + '?id=' + id
+        const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/";
+        window.open(`${managerPortalURL}?id=${id}`, '_blank');
     }
 
-    // ربط زر "نموذج عدم مطابقة جديد" بفتح النافذة
-    document.getElementById('newNcrBtn')?.addEventListener('click', openNCRModalWithForm);
+    function openReportsModal() {
+        closeNcrOptionsModal();
+        document.getElementById('reportsModal').classList.add('modal-active');
+        loadReports();
+    }
 
-    // تعديل دالة filterCategory لفتح نافذة الخيارات
+    // ربط الأزرار
+    document.getElementById('newNcrBtn')?.addEventListener('click', openNCRModalWithForm);
+    document.getElementById('reportsBtn')?.addEventListener('click', openReportsModal);
+
+    // تعديل دالة filterCategory
     if (typeof window.originalFilterCategory === 'undefined') {
         window.originalFilterCategory = window.filterCategory;
     }
@@ -1481,18 +1487,8 @@
             openNcrOptionsModal();
             return;
         }
-        if (window.originalFilterCategory) {
-            window.originalFilterCategory(cat);
-        }
+        if (window.originalFilterCategory) window.originalFilterCategory(cat);
     };
-
-    // دوال الإغلاق
-    function closeNcrOptionsModal() {
-        document.getElementById('ncrOptionsModal').classList.remove('modal-active');
-    }
-    function closeNcrModal() {
-        document.getElementById('ncrModal').classList.remove('modal-active');
-    }
 </script>
 </body>
 </html>
