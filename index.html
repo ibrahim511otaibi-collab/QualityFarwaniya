@@ -1411,7 +1411,7 @@
         if (!department) { alert("الرجاء اختيار القسم."); return; }
         const btn = document.getElementById('saveNcrBtn');
         btn.disabled = true; btn.innerText = "⏳ جاري الحفظ...";
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec"; // ضع رابط السكربت الصحيح
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwF--LEOzm6tdK1XPz4SKnsA8Sq-k_M9wQsMhicNaXk7YlFTcBbXCe3V6D-H6kjFSA5/exec"; // ضع رابط السكربت الصحيح
         const managerPortalURL = "https://ibrahim511otaibi-collab.github.io/test-acap/";
         const payload = { id, auditor, department, source, risk, desc, rootCause: "", action: "", manager: "" };
         try {
@@ -1432,7 +1432,7 @@
         const tbody = document.getElementById('reportsTableBody');
         loadingDiv.style.display = 'block';
         tableContainer.style.display = 'none';
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzH8Dcwhkcr7fhZnDWxGYj9trniZnghg-8PAxp4b_oWucRtq4wx9KZk7qU0iq0Ht5ol/exec"; // نفس الرابط
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwF--LEOzm6tdK1XPz4SKnsA8Sq-k_M9wQsMhicNaXk7YlFTcBbXCe3V6D-H6kjFSA5/exec"; // نفس الرابط
         try {
             const response = await fetch(`${scriptURL}?action=list`);
             const data = await response.json();
